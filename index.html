@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adan Store | Kaos Keren, Gaya Kekinian</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Internal -->
+  <style>
+    /* Custom Scrollbar & Preloader */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+    #preloader { position: fixed; left: 0; top: 0; z-index: 9999; width: 100%; height: 100%; overflow: visible; background: #fff; }
+    .loader { position: absolute; left: 50%; top: 50%; border: 4px solid #f3f3f3; border-top: 4px solid #000; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; transform: translate(-50%, -50%); }
+    @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* Mengimpor font dari Google Fonts */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    header {
+      background: #fff;
+      color: #333;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+    }
+    
+    nav a {
+      color: #555;
+      margin-left: 25px;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav a.active {
+      color: #000;
+      text-decoration: underline;
+    }
+    
+    .hamburger { display: none; cursor: pointer; }
+    .bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: 0.3s; background-color: #333; }
+
+    main {
+        padding: 0 40px;
+    }
+
+    .page-section {
+        display: none;
+        animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 120px 20px;
+      background: #fff;
+      border-radius: 10px;
+      margin-top: 40px;
+      position: relative;
+    }
+
+    .hero h2 {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      color: #666;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2em;
+        margin-bottom: 40px;
+        font-weight: 700;
+    }
+    
+    .features {
+        display: flex;
+        justify-content: space-around;
+        padding: 60px 0;
+        text-align: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .feature-item {
+        flex: 1;
+        min-width: 250px;
+        padding: 20px;
+    }
+    .feature-item svg {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+        color: #000;
+    }
+
+    .testimonials {
+        padding: 60px 0;
+        background-color: #fff;
+    }
+    .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+    .testimonial-card {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        border-left: 5px solid #000;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .testimonial-card p { font-style: italic; color: #555; }
+    .testimonial-card h4 { margin-top: 15px; font-weight: 700; color: #333;}
+    
+
+    .btn {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 700;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    .products {
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .product {
+      background: #fff;
+      border: 1px solid #eee;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product .btn {
+        margin-top: auto;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background-color: #eee;
+    }
+
+    .product h3 { font-size: 1.2em; margin: 10px 0; }
+    .product p { font-weight: bold; color: #000; font-size: 1.1em; margin-bottom: 15px; }
+
+    .product-detail {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 60px 40px;
+      gap: 40px;
+      align-items: center;
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 10px;
+    }
+
+    .product-detail img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      background-color: #eee;
+    }
+
+    .product-detail .info { flex: 1; }
+    .product-detail .info h2 { font-size: 2em; margin-top: 0; }
+    .price { font-size: 1.5em; font-weight: bold; color: #000; margin-bottom: 20px; }
+
+    footer {
+      background: #232323;
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+    
+    .footer-socials { margin-bottom: 20px; }
+    .footer-socials a { color: #fff; text-decoration: none; margin: 0 10px; font-size: 1.5em; transition: color 0.3s; }
+    .footer-socials a:hover { color: #ccc; }
+
+    #back-to-top-btn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99;
+      border: none;
+      outline: none;
+      background-color: #000;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 18px;
+      transition: background-color 0.3s, opacity 0.3s;
+    }
+    #back-to-top-btn:hover { background-color: #555; }
+    
+    /* Animasi Scroll */
+    .animated-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .animated-item.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Media query untuk responsivitas */
+    @media (max-width: 768px) {
+      header {
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+      main { padding: 0 20px; }
+      nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        background-color: #fff;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+      }
+      nav.active {
+        display: flex;
+        max-height: 300px;
+      }
+      nav a { margin: 10px 0; }
+      .hamburger { display: block; position: absolute; top: 25px; right: 20px; }
+      .hamburger.active .bar:nth-child(2) { opacity: 0; }
+      .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+      .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+      .product-detail { flex-direction: column; text-align: center; padding: 30px 20px; }
+      .hero h2 { font-size: 2em; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <header>
+    <h1 id="logo">Adan Store</h1>
+    <div class="hamburger">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+    <nav>
+      <a data-page="home" class="nav-link active">Beranda</a>
+      <a data-page="products" class="nav-link">Katalog</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Halaman Beranda -->
+    <section id="home" class="page-section">
+      <div class="hero">
+        <h2>Kaos Keren, Gaya Kekinian</h2>
+        <p>Tampil percaya diri dengan koleksi kaos terbaik dari Adan Store.</p>
+        <a data-page="products" class="btn nav-link">Lihat Semua Produk</a>
+      </div>
+      
+      <div class="features">
+        <div class="feature-item animated-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            <h3>Bahan Premium</h3>
+            <p>Kenyamanan maksimal dengan bahan katun terbaik.</p>
+        </div>
+        <div class="feature-item animated-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            <h3>Desain Eksklusif</h3>
+            <p>Tampil beda dengan desain yang tidak pasaran.</p>
+        </div>
+        <div class="feature-item animated-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            <h3>Gratis Ongkir</h3>
+            <p>Nikmati gratis ongkir untuk pembelian di atas Rp 200.000.</p>
+        </div>
+      </div>
+      
+      <div class="products">
+          <h2 class="section-title">Produk Terlaris</h2>
+          <div class="product-grid">
+            <!-- Produk 1 -->
+            <div class="product animated-item">
+              <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Hitam Simple">
+              <h3>Kaos Hitam Simple</h3>
+              <p>Rp 99.000</p>
+              <a data-page="product-detail" data-title="Kaos Hitam Simple" data-price="Rp 99.000" data-img="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="btn nav-link">Lihat Detail</a>
+            </div>
+            <!-- Produk 2 -->
+            <div class="product animated-item">
+              <img src="https://images.unsplash.com/photo-1622445275463-afa2ab738c34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Putih Polos">
+              <h3>Kaos Putih Polos</h3>
+              <p>Rp 89.000</p>
+              <a data-page="product-detail" data-title="Kaos Putih Polos" data-price="Rp 89.000" data-img="https://images.unsplash.com/photo-1622445275463-afa2ab738c34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="btn nav-link">Lihat Detail</a>
+            </div>
+            <!-- Produk 3 -->
+            <div class="product animated-item">
+              <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Graphic Street">
+              <h3>Kaos Graphic Street</h3>
+              <p>Rp 129.000</p>
+              <a data-page="product-detail" data-title="Kaos Graphic Street" data-price="Rp 129.000" data-img="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="btn nav-link">Lihat Detail</a>
+            </div>
+          </div>
+        </div>
+
+      <div class="testimonials">
+          <h2 class="section-title">Apa Kata Mereka?</h2>
+          <div class="testimonial-grid">
+              <div class="testimonial-card animated-item">
+                  <p>"Kualitas kaosnya juara! Bahannya adem dan sablonnya awet. Nyaman banget dipakai seharian. Pasti order lagi!"</p>
+                  <h4>- Budi Santoso</h4>
+              </div>
+              <div class="testimonial-card animated-item">
+                  <p>"Desainnya keren-keren dan kekinian. Suka banget sama koleksinya Adan Store. Pengirimannya juga cepat."</p>
+                  <h4>- Citra Lestari</h4>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Halaman Katalog Produk -->
+    <section id="products" class="page-section">
+      <div class="products">
+        <h2 class="section-title">Semua Produk</h2>
+        <div class="product-grid">
+          <!-- Produk 1 -->
+          <div class="product animated-item">
+            <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Hitam Simple">
+            <h3>Kaos Hitam Simple</h3>
+            <p>Rp 99.000</p>
+            <a data-page="product-detail" 
+               data-title="Kaos Hitam Simple"
+               data-price="Rp 99.000"
+               data-img="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+               class="btn nav-link">Lihat Detail</a>
+          </div>
+          <!-- Produk 2 -->
+          <div class="product animated-item">
+            <img src="https://images.unsplash.com/photo-1622445275463-afa2ab738c34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Putih Polos">
+            <h3>Kaos Putih Polos</h3>
+            <p>Rp 89.000</p>
+            <a data-page="product-detail" 
+               data-title="Kaos Putih Polos"
+               data-price="Rp 89.000"
+               data-img="https://images.unsplash.com/photo-1622445275463-afa2ab738c34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+               class="btn nav-link">Lihat Detail</a>
+          </div>
+          <!-- Produk 3 -->
+          <div class="product animated-item">
+            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Graphic Street">
+            <h3>Kaos Graphic Street</h3>
+            <p>Rp 129.000</p>
+            <a data-page="product-detail" 
+               data-title="Kaos Graphic Street"
+               data-price="Rp 129.000"
+               data-img="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+               class="btn nav-link">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Halaman Detail Produk -->
+    <section id="product-detail" class="page-section">
+      <div class="product-detail">
+        <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kaos Hitam Simple">
+        <div class="info">
+          <h2>Kaos Hitam Simple</h2>
+          <p class="price">Rp 99.000</p>
+          <p>Kaos berbahan katun premium, nyaman dipakai, dan cocok untuk semua gaya. Desain minimalis yang elegan untuk tampilan sehari-hari yang sempurna.</p>
+          <a href="https://wa.me/6281234567890" class="btn" target="_blank">Pesan via WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-socials">
+        <a href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+        </a>
+    </div>
+    <p>© 2025 Adan Store. All rights reserved.</p>
+  </footer>
+
+  <button id="back-to-top-btn" title="Go to top">↑</button>
+
+  <!-- JavaScript untuk Navigasi dan Animasi -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preloader
+      const preloader = document.getElementById('preloader');
+      window.addEventListener('load', () => {
+        preloader.style.display = 'none';
+      });
+
+      const pageSections = document.querySelectorAll('.page-section');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const logo = document.getElementById('logo');
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('nav');
+      
+      function showPage(pageId) {
+        pageSections.forEach(section => { section.style.display = 'none'; });
+        const activePage = document.getElementById(pageId);
+        if (activePage) { activePage.style.display = 'block'; }
+
+        document.querySelectorAll('header nav .nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.page === pageId) { link.classList.add('active'); }
+        });
+        
+        window.scrollTo(0, 0);
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        handleScrollAnimations();
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          const pageId = this.dataset.page;
+          if (pageId === 'product-detail') {
+            const title = this.dataset.title;
+            const price = this.dataset.price;
+            const imgSrc = this.dataset.img;
+            
+            const detailSection = document.getElementById('product-detail');
+            detailSection.querySelector('img').src = imgSrc;
+            detailSection.querySelector('img').alt = title;
+            detailSection.querySelector('h2').textContent = title;
+            detailSection.querySelector('.price').textContent = price;
+          }
+          showPage(pageId);
+        });
+      });
+      
+      logo.addEventListener('click', () => showPage('home'));
+
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      function handleScrollAnimations() {
+        document.querySelectorAll('.animated-item').forEach(el => {
+            el.classList.remove('is-visible');
+            observer.observe(el);
+        });
+      }
+
+      const backToTopBtn = document.getElementById('back-to-top-btn');
+      window.onscroll = function() {
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+          backToTopBtn.style.display = "block";
+        } else {
+          backToTopBtn.style.display = "none";
+        }
+      };
+      backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({top: 0, behavior: 'smooth'});
+      });
+
+      showPage('home');
+    });
+  </script>
+</body>
+</html>
+
